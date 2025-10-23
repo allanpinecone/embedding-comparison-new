@@ -246,8 +246,8 @@ def main():
                 with st.spinner("Searching with Model 1..."):
                     results = st.session_state.system.search_movies(
                         query,
-                        st.session_state.indices_created['index1']['name'],
                         st.session_state.indices_created['index1']['config'],
+                        st.session_state.indices_created['index1']['name'],
                         top_k
                     )
                     st.session_state.model1_results = results
@@ -261,8 +261,8 @@ def main():
                 with st.spinner("Searching with Model 2..."):
                     results = st.session_state.system.search_movies(
                         query,
-                        st.session_state.indices_created['index2']['name'],
                         st.session_state.indices_created['index2']['config'],
+                        st.session_state.indices_created['index2']['name'],
                         top_k
                     )
                     st.session_state.model2_results = results
@@ -280,7 +280,7 @@ def main():
             st.subheader(f"Model 1: {model1_config.name}")
             if st.session_state.model1_results:
                 for i, result in enumerate(st.session_state.model1_results, 1):
-                    with st.expander(f"#{i}: {result['title']} (Score: {result['score']:.3f})"):
+                    with st.expander(f"#{i}: {result['title']} (Score: {result['similarity_score']:.3f})"):
                         st.write(f"**Release Date:** {result['release_date']}")
                         st.write(f"**Language:** {result['original_language']}")
                         st.write(f"**Overview:** {result['overview']}")
@@ -291,7 +291,7 @@ def main():
             st.subheader(f"Model 2: {model2_config.name}")
             if st.session_state.model2_results:
                 for i, result in enumerate(st.session_state.model2_results, 1):
-                    with st.expander(f"#{i}: {result['title']} (Score: {result['score']:.3f})"):
+                    with st.expander(f"#{i}: {result['title']} (Score: {result['similarity_score']:.3f})"):
                         st.write(f"**Release Date:** {result['release_date']}")
                         st.write(f"**Language:** {result['original_language']}")
                         st.write(f"**Overview:** {result['overview']}")

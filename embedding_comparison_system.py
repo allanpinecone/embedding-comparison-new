@@ -128,6 +128,7 @@ class EmbeddingComparisonSystem:
                 
                 metadata = {
                     'title': clean_value(movie['title']),
+                    'overview': clean_value(movie['overview']),
                     'release_date': clean_value(movie['release_date']),
                     'original_language': clean_value(movie['original_language']),
                     'model_name': model_config.name,
@@ -164,6 +165,8 @@ class EmbeddingComparisonSystem:
                 'id': match['id'],
                 'title': match['metadata']['title'],
                 'release_date': match['metadata']['release_date'],
+                'original_language': match['metadata'].get('original_language', 'Unknown'),
+                'overview': match['metadata'].get('overview', 'No overview available'),
                 'similarity_score': match['score'],
                 'model_name': match['metadata'].get('model_name', model_config.name),
                 'dimensions': match['metadata'].get('dimensions', model_config.dimensions)
