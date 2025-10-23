@@ -45,6 +45,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+def clear_session_state():
+    """Clear all session state variables"""
+    for key in list(st.session_state.keys()):
+        del st.session_state[key]
+
 def initialize_session_state():
     """Initialize session state variables"""
     if 'system' not in st.session_state:
@@ -58,11 +63,10 @@ def initialize_session_state():
     if 'model2_results' not in st.session_state:
         st.session_state.model2_results = None
 
-def load_system():
-    """Load the embedding comparison system"""
+def load_system(api_key: str):
+    """Load the embedding comparison system with provided API key"""
     if st.session_state.system is None:
-        PINECONE_API_KEY = os.getenv('PINECONE_API_KEY', 'your-pinecone-api-key-here')
-        st.session_state.system = EmbeddingComparisonSystem(PINECONE_API_KEY)
+        st.session_state.system = EmbeddingComparisonSystem(api_key)
 
 def get_available_dimensions(model_name: str) -> list:
     """Get available dimensions for a specific model"""
@@ -78,7 +82,6 @@ def create_model_config(model_name: str, dimensions: int):
 def main():
     """Main application"""
     initialize_session_state()
-    load_system()
     
     # Header
     st.markdown('<h1 class="main-header">🎬 Embedding Model Comparison System</h1>', unsafe_allow_html=True)
@@ -88,19 +91,28 @@ def main():
     with st.sidebar:
         st.header("⚙️ Configuration")
         
+        # Clear session state button
+        if st.button("🗑️ Clear All Data", help="Clear all session data and start fresh"):
+            clear_session_state()
+            st.success("✅ Session cleared! Please refresh the page.")
+            st.rerun()
+        
         # Pinecone API Key input
         pinecone_key = st.text_input(
             "Pinecone API Key",
-            value=os.getenv('PINECONE_API_KEY', ''),
+            value="",
             type="password",
             help="Enter your Pinecone API key or set PINECONE_API_KEY environment variable"
         )
         
         # Load system button
         if st.button("🔧 Initialize System"):
-            with st.spinner("Initializing system..."):
-                st.session_state.system = EmbeddingComparisonSystem(pinecone_key)
-                st.success("✅ System initialized!")
+            if not pinecone_key or pinecone_key == "your-pinecone-api-key-here":
+                st.error("❌ Please enter a valid Pinecone API key!")
+            else:
+                with st.spinner("Initializing system..."):
+                    load_system(pinecone_key)
+                    st.success("✅ System initialized!")
         
         # Dataset size selection
         st.header("📊 Dataset Options")
