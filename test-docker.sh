@@ -23,11 +23,11 @@ if [ -z "$PINECONE_API_KEY" ]; then
 fi
 
 echo "🚀 Starting Docker container..."
-echo "📱 The app will be available at: http://localhost:8501"
+echo "📱 The app will be available at: http://localhost:8502"
 echo "⏹️  Press Ctrl+C to stop the container"
 echo ""
 
-# Run the container
-docker run --rm -p 8501:8501 \
+# Run the container (using port 8502 since 8501 is likely in use)
+docker run --rm -p 8502:8501 \
   -e PINECONE_API_KEY="$PINECONE_API_KEY" \
   allanpinecone/embedding-comparison:latest
