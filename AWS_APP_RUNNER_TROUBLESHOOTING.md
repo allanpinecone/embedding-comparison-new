@@ -14,12 +14,12 @@ Refer to the Release information in the App Runner Developer guide for supported
 AWS App Runner has specific Python runtime version requirements. Here are the supported versions:
 
 #### **✅ Supported Python Versions:**
-- **Python 3.8** (recommended for compatibility)
-- **Python 3.9** 
-- **Python 3.10**
+- **Python 3.11** (latest, recommended)
+- **Python 3.10** 
+- **Python 3.9**
+- **Python 3.8** (deprecated, support ends Dec 2025)
 
 #### **❌ NOT Supported:**
-- **Python 3.11** (too new)
 - **Python 3.7** (too old)
 
 ---
@@ -30,10 +30,10 @@ AWS App Runner has specific Python runtime version requirements. Here are the su
 
 Replace your current `apprunner.yaml` with one of these:
 
-#### **For Python 3.10:**
+#### **For Python 3.11 (Recommended):**
 ```yaml
 version: 1.0
-runtime: python3
+runtime: python311
 build:
   commands:
     build:
@@ -41,7 +41,22 @@ build:
       - pip install -r requirements.txt
       - echo "Build completed"
 run:
-  runtime-version: 3.10
+  command: streamlit run streamlit_app_optimized.py --server.port=8080 --server.address=0.0.0.0 --server.headless=true
+  network:
+    port: 8080
+```
+
+#### **For Python 3.10:**
+```yaml
+version: 1.0
+runtime: python310
+build:
+  commands:
+    build:
+      - echo "Installing dependencies..."
+      - pip install -r requirements.txt
+      - echo "Build completed"
+run:
   command: streamlit run streamlit_app_optimized.py --server.port=8080 --server.address=0.0.0.0 --server.headless=true
   network:
     port: 8080
@@ -138,20 +153,20 @@ This bypasses the Python runtime version issue entirely!
 
 | Python Version | Status | Recommendation |
 |----------------|--------|----------------|
-| 3.8            | ✅ Supported | Most compatible |
-| 3.9            | ✅ Supported | Good choice |
-| 3.10           | ✅ Supported | Modern choice |
-| 3.11           | ❌ Not supported | Use 3.10 instead |
+| 3.11           | ✅ Supported | Latest, recommended |
+| 3.10           | ✅ Supported | Good choice |
+| 3.9            | ✅ Supported | Compatible |
+| 3.8            | ⚠️ Deprecated | Support ends Dec 2025 |
 
 ---
 
 ## 🎯 **Recommended Action:**
 
-**Use Python 3.10** - it's the most recent supported version and should work with all your dependencies.
+**Use Python 3.11** - it's the latest supported version and should work with all your dependencies.
 
 Update your `apprunner.yaml` to:
 ```yaml
-runtime-version: 3.10
+runtime: python311
 ```
 
 Then commit, push, and redeploy! 🚀
