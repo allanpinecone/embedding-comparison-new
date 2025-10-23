@@ -4,7 +4,7 @@ services:
   embedding-comparison:
     image: allanpinecone/embedding-comparison:latest
     ports:
-      - "8503:8501"
+      - "8504:8501"
     environment:
       - PINECONE_API_KEY=${PINECONE_API_KEY}
     restart: unless-stopped
