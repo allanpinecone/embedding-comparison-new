@@ -247,6 +247,7 @@ def main():
                     results = st.session_state.system.search_movies(
                         query,
                         st.session_state.indices_created['index1']['name'],
+                        st.session_state.indices_created['index1']['config'],
                         top_k
                     )
                     st.session_state.model1_results = results
@@ -261,6 +262,7 @@ def main():
                     results = st.session_state.system.search_movies(
                         query,
                         st.session_state.indices_created['index2']['name'],
+                        st.session_state.indices_created['index2']['config'],
                         top_k
                     )
                     st.session_state.model2_results = results
